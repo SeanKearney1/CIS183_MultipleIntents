@@ -1,9 +1,10 @@
 package com.example.cis183_multipleintents;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Pet {
+public class Pet implements Serializable {
     private String name;
     private int age;
     private String type;
@@ -38,5 +39,6 @@ public class Pet {
         public static void addPet(String t) {
             typeOfPet.add(t);
         }
+
     }
 }
