@@ -1,7 +1,10 @@
 package com.example.cis183_multipleintents;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView lv_v_listOfPets;
 
+    Intent intent_j_displayUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         lv_v_listOfPets = findViewById(R.id.lv_v_listOfPets);
-
+        intent_j_displayUpdate = new Intent(MainActivity.this, PetDisplayUpdate.class);
         //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,test);
         //lv_v_listOfPets.setAdapter(adapter);
-
+        setOnClickListenerForListView();
         addDummyDataToArrayList();
         displayAllPetData();
         fillListView();
@@ -60,4 +64,20 @@ public class MainActivity extends AppCompatActivity {
         plAdapter = new PetListAdapter(this,listOfPets);
         lv_v_listOfPets.setAdapter(plAdapter);
     }
+
+    private void setOnClickListenerForListView() {
+        lv_v_listOfPets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Pet petSelected = listOfPets.get(position);
+                goToPetDisplayUpdate(petSelected);
+            }
+        });
+    }
+
+    public void goToPetDisplayUpdate(Pet pet) {
+        intent_j_displayUpdate.putExtra("PetData", pet);
+        startActivity(intent_j_displayUpdate);
+    }
+
 }
