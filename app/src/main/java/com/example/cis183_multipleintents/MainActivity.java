@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,14 +18,18 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<Pet> listOfPets = new ArrayList<>();
+    static ArrayList<Pet> listOfPets = new ArrayList<>();
 
+    static int numberTestingLoad = 50;
     PetListAdapter plAdapter;
 
     //String[] test = { "Hello", "hi", "Hola" };
 
+    Button btn_v_addPet;
     ListView lv_v_listOfPets;
 
+    static boolean FirstLoad = true;
+    Intent intent_j_addNewPet;
     Intent intent_j_displayUpdate;
 
     @Override
@@ -38,15 +43,53 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        Intent cameFrom = getIntent();
+
+        if (cameFrom.getSerializableExtra("PetData") != null) {
+            Pet petData = (Pet) cameFrom.getSerializableExtra("PetData");
+            listOfPets.add(petData);
+        }
+        if (FirstLoad) {
+            addDummyDataToArrayList();
+            FirstLoad = false;
+        }
+
+
+
         lv_v_listOfPets = findViewById(R.id.lv_v_listOfPets);
         intent_j_displayUpdate = new Intent(MainActivity.this, PetDisplayUpdate.class);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,test);
-        //lv_v_listOfPets.setAdapter(adapter);
+        intent_j_addNewPet = new Intent(MainActivity.this,AddPet.class);
+        btn_v_addPet = findViewById(R.id.btn_v_addPet);
+
+        addPetOnClickListener();
         setOnClickListenerForListView();
-        addDummyDataToArrayList();
         displayAllPetData();
         fillListView();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void addPetOnClickListener() {
+        btn_v_addPet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberTestingLoad = 64;
+                intent_j_addNewPet.putExtra("InfoPassed","Hello from main.");
+                startActivity(intent_j_addNewPet);
+            }
+        });
+    }
+
 
     private void addDummyDataToArrayList() {
         listOfPets.add(new Pet("Frank",4,Pet.PetType.petAt(0)));
@@ -80,4 +123,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent_j_displayUpdate);
     }
 
+
+    public void addPet(Pet p) {
+        listOfPets.add(p);
+    }
 }

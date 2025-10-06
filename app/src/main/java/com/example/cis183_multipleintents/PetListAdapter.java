@@ -47,9 +47,9 @@ public class PetListAdapter extends BaseAdapter {
 
         Pet pet = listOfPets.get(position);
 
-        petName.setText(pet.getName());
-        petType.setText(pet.getType());
-        petAge.setText(Integer.toString(pet.getAge()));
+        petName.setText("Name: "+pet.getName());
+        petType.setText("Type: "+pet.getType());
+        petAge.setText("Age:   "+Integer.toString(pet.getAge()));
 
         return view;
     }
