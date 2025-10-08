@@ -26,17 +26,30 @@
         android:id="@+id/et_v_update_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="238dp"
+        android:layout_marginTop="228dp"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.532"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_v_update_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="176dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.532"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_v_update_updatePetData"
-        android:layout_width="132dp"
-        android:layout_height="88dp"
+        android:layout_width="127dp"
+        android:layout_height="67dp"
         android:layout_marginStart="60dp"
         android:layout_marginBottom="96dp"
         android:text="Update"

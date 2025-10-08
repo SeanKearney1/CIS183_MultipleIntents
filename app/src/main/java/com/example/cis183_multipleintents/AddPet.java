@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,8 +22,12 @@ public class AddPet extends AppCompatActivity {
     Button btn_addPet_addPet;
     EditText et_addPet_name;
     EditText et_addPet_age;
-    EditText et_addPet_type;
+    Spinner spin_addPet_type;
+    ArrayAdapter<String> PetTypes;
+    TextView tv_addPet_newPetType;
+
     Intent intent_j_main;
+    Intent intent_j_newPetType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +52,30 @@ public class AddPet extends AppCompatActivity {
 
         et_addPet_name = findViewById(R.id.et_addPet_name);
         et_addPet_age = findViewById(R.id.et_addPet_age);
-        et_addPet_type = findViewById(R.id.et_addPet_type);
+        spin_addPet_type = findViewById(R.id.spin_addPet_type);
+
+        tv_addPet_newPetType = findViewById(R.id.tv_addPet_newPetType);
 
         intent_j_main = new Intent(AddPet.this,MainActivity.class);
+        intent_j_newPetType = new Intent(AddPet.this, AddPetType.class);
+
+        PetTypes = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,Pet.PetType.getAllPetTypes());
+
+        spin_addPet_type.setAdapter(PetTypes);
 
         setOnClickListenerBackButton();
         setOnClickListenerUpdatePetButton();
+        setOnClickListenerAddNewPetType();
+    }
+
+    private void setOnClickListenerAddNewPetType() {
+        tv_addPet_newPetType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Hi","Add new Pet");
+                startActivity(intent_j_newPetType);
+            }
+        });
     }
 
     private void setOnClickListenerBackButton() {
@@ -77,13 +102,15 @@ public class AddPet extends AppCompatActivity {
         Pet new_pet = new Pet();
 
         new_pet.setName(String.valueOf(et_addPet_name.getText()));
-        new_pet.setAge(Integer.parseInt(String.valueOf(et_addPet_age.getText())));
-        new_pet.setType(String.valueOf(et_addPet_type.getText()));
+        if (!String.valueOf(et_addPet_age.getText()).isEmpty()) {
+            new_pet.setAge(Integer.parseInt(String.valueOf(et_addPet_age.getText())));
+        }
+        new_pet.setType(Pet.PetType.petAt(spin_addPet_type.getSelectedItemPosition()));
 
         //little extra
         if (new_pet.getName().isEmpty()) { new_pet.setName("John"); }
         if (new_pet.getType().isEmpty()) { new_pet.setType(Pet.PetType.petAt(0)); }
-        if (new_pet.getAge() < 0) { new_pet.setAge(1); }
+        if (new_pet.getAge() <= 0) { new_pet.setAge(1); }
 
         return new_pet;
     }
